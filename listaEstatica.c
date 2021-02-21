@@ -82,9 +82,29 @@ int insereFinal(tipoLista *l, tipoInfo info)
     return retorno;
 }
 
-int retirarElementoEscolhido(tipoLista *l, tipoInfo info, int pos)
+int retirarElementoEscolhido(tipoLista *l, int pos)
 {
+    int retorno = 0;
+    int realPos = pos - 1;
+
+    if (l->posUltimo == tamMaximo - 1)
+    {
+        retorno = -1;
+    }
+    else
+    {
+        for (int i = realPos; i < l->posUltimo; i++)
+        {
+            l->elementos[i] = l->elementos[i + 1];
+        }
+
+        l->posUltimo--;
+    }
+
+    return retorno;
 }
+
+
 
 void imprimeLista(tipoLista l)
 {
@@ -111,10 +131,14 @@ int main()
     insereInicio(&lista, info);
 
     info.chave = 8;
-    insereInicio(&lista, info);
+    insereFinal(&lista, info);
 
     info.chave = 22;
     insereLocalEscolhido(&lista, info, 2);
+
+    imprimeLista(lista);
+
+    retirarElementoEscolhido(&lista, 3);
 
     imprimeLista(lista);
 
