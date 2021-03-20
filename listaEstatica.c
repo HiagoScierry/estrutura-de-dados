@@ -104,7 +104,20 @@ int retirarElementoEscolhido(tipoLista *l, int pos)
     return retorno;
 }
 
+void quebrarLista(tipoLista *l, tipoLista *l2, int pos)
+{
+    int RealPos = pos - 1;
 
+    
+
+}
+
+void retornoDoElemento(tipoLista *l, int pos)
+{
+    int realPos = pos - 1;
+    printf("%d", l->elementos[realPos].chave);
+    printf("\n");
+}
 
 void imprimeLista(tipoLista l)
 {
@@ -120,6 +133,7 @@ void imprimeLista(tipoLista l)
 int main()
 {
     tipoLista lista;
+    tipoLista lista2;
     tipoInfo info;
 
     fazVazia(&lista);
@@ -141,6 +155,8 @@ int main()
     retirarElementoEscolhido(&lista, 3);
 
     imprimeLista(lista);
+
+    retornoDoElemento(&lista, 2);
 
     return 0;
 }
