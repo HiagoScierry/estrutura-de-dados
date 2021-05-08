@@ -4,16 +4,20 @@
 
 #include "Time.h"
 #include "Lista.h"
+#include "Grupo.h"
 
 int main(int argc, char const *argv[])
 {
     int menuescolha;
 
-    tipoDescritor *descritorTimes;
+    tipoDescritor *descritorTimes, *aux;
     tipoTime timeProv = {0, "", "l"};
+    GrupoDescritor *grupo1, *grupo2;
     int idProv;
 
     descritorTimes = criarLista();
+    aux = criarLista();
+    grupo1 = criaGrupo();
 
     while (menuescolha != 7)
     {
@@ -36,15 +40,13 @@ int main(int argc, char const *argv[])
         {
         case 1:
             printf("Digite o nome do time :");
-            scanf("%s", timeProv.nome);
+            scanf(" %s", timeProv.nome);
 
             printf("Digite o nome da regiao :");
-            scanf("%s", timeProv.regiao);
+            scanf(" %s", timeProv.regiao);
 
             criarTime(descritorTimes, timeProv);
-
             system("clear");
-
             break;
 
         case 2:
@@ -61,21 +63,38 @@ int main(int argc, char const *argv[])
 
             editarTime(descritorTimes, timeProv, idProv);
             break;
-
         case 3:
 
             system("clear");
+
+            mostrarLista(descritorTimes);
             printf("selecione o ID para remover");
             scanf("%i", &idProv);
             removerTime(descritorTimes, idProv);
             break;
 
         case 4:
-
             system("clear");
-
             mostrarLista(descritorTimes);
             break;
+
+        case 5:
+            copiaLista(descritorTimes, aux);
+            sorteiaGrupos(aux, grupo1, (int)(aux->quantidade/2));
+            mostrarLista(aux);
+            sorteiaGrupos(aux, grupo2, (int)(aux->quantidade));
+
+            break;
+
+        case 6:
+            printf("\nGRUPO 1 : ");
+            mostraGrupos(grupo1); 
+            
+            printf("\nGRUPO 2 : ");
+            mostraGrupos(grupo2); 
+            
+            break;
+
         default:
             break;
         }

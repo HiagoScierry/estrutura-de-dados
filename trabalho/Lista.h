@@ -20,7 +20,6 @@ int removeInicio(tipoDescritor *L);
 
 int removeFim(tipoDescritor *L);
 
-int removeMeio(tipoDescritor *L , int Id);
-
+int copiaLista(tipoDescritor *L1, tipoDescritor *L2);
 
 #endif

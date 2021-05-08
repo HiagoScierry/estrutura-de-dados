@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "Time.h"
 #include "Lista.h"
@@ -13,8 +14,18 @@ int insereInicio(tipoDescritor *L, tipoTime inf)
         return -1;
 
     novoNo->time = inf;
-
     novoNo->proximo = L->primeiro;
+
+    if (L->primeiro != NULL)
+    {
+        L->primeiro->anterior = novoNo;
+    }
+    else
+    {
+        L->ultimo = novoNo;
+    }
+
+    novoNo->anterior = NULL;
     L->primeiro = novoNo;
     L->quantidade++;
 
@@ -23,22 +34,22 @@ int insereInicio(tipoDescritor *L, tipoTime inf)
 
 int insereFinal(tipoDescritor *L, tipoTime inf)
 {
-    tipoNo *novoNo, *anterior, *temp;
+    tipoNo *novoNo;
+    
+    if (L == NULL ) return -1;
+
+    
+    if (  L->primeiro == NULL)
+        return insereInicio(L, inf);
 
     novoNo = (tipoNo *)malloc(sizeof(tipoNo));
-
     if (novoNo == NULL)
         return -1;
 
     novoNo->time = inf;
-    temp = L->primeiro;
-
-    while (temp != NULL)
-    {
-        anterior = temp;
-        temp = temp->proximo;
-    }
-    anterior->proximo = novoNo;
+    novoNo->proximo = NULL;
+    novoNo->anterior = L->ultimo;
+    novoNo->anterior->proximo = novoNo;
     L->ultimo = novoNo;
     L->quantidade++;
 
@@ -47,45 +58,44 @@ int insereFinal(tipoDescritor *L, tipoTime inf)
 
 int inserePosicao(tipoDescritor *L, tipoTime inf, int pos)
 {
-    tipoNo *temp, *anterior, *novoNo;
-    int posAtual = 1;
+    tipoNo *novoNo, *aux;
+    int posatual = 0;
 
-    temp = L->primeiro;
-
-    while (posAtual < pos && temp != NULL)
+    if (L->quantidade == 0 || pos == 0)
     {
-        anterior = temp;
-        temp = temp->proximo;
-        posAtual++;
+        return insereInicio(L, inf);
     }
 
-    if (temp == NULL || posAtual == pos)
+    if (pos == L->quantidade)
     {
-        novoNo = (tipoNo *)malloc(sizeof(tipoNo));
-        novoNo->time = inf;
-        if (pos == 1)
-        {
-            insereInicio(L, inf);
-        }
-        else if (pos > L->quantidade)
-        {
-            insereFinal(L, inf);
-        }
-        else
-        {
-            anterior->proximo = novoNo;
-            novoNo->anterior = anterior;
-            novoNo->proximo = temp;
-            temp->anterior = novoNo;
-            L->quantidade++;
-        }
 
-        return 0;
+        return insereFinal(L, inf);
     }
-    else
+
+    for (aux = L->primeiro; aux != NULL; aux = aux->proximo)
+    {
+        if (pos == posatual)
+        {
+
+            break;
+        }
+        posatual++;
+    }
+
+    novoNo = (tipoNo *)malloc(sizeof(tipoNo));
+
+    if (novoNo == NULL)
     {
         return -1;
     }
+
+    novoNo->time = inf;
+    aux->anterior->proximo = novoNo;
+    novoNo->proximo = aux;
+    novoNo->anterior = aux->anterior;
+    aux->anterior = novoNo;
+
+    return 0;
 }
 
 int mostrarLista(tipoDescritor *L)
@@ -117,7 +127,7 @@ int proximoId(tipoDescritor *L)
 
     if (L->primeiro == NULL)
     {
-        return 0;
+        return 1;
     }
 
     temp = L->primeiro;
@@ -147,6 +157,8 @@ int removeInicio(tipoDescritor *L)
         return -1;
 
     L->primeiro = temp->proximo;
+    L->primeiro->anterior = NULL;
+    L->quantidade--;
 
     free(temp);
 
@@ -163,31 +175,37 @@ int removeFim(tipoDescritor *L)
         return -1;
 
     L->ultimo = temp->anterior;
-
+    L->ultimo->proximo = NULL;
+    L->quantidade--;
     free(temp);
 
     return 0;
 }
 
-
-int removeMeio(tipoDescritor *L, int Id){
+int copiaLista(tipoDescritor *L1, tipoDescritor *L2)
+{
 
     tipoNo *temp;
+    tipoTime timeProv;
 
-    temp = L->primeiro;
+    if (L1 == NULL)
+        return -1;
 
-    if (temp == NULL) return -1;
+    temp = L1->primeiro;
 
-    while (Id != temp->time.id)
+    if (temp == NULL || L1->quantidade == 0)
+        return -1;
+
+
+    while (temp != NULL)
     {
-         temp = temp->proximo;
+        timeProv.id = temp->time.id;
+        strcpy(timeProv.nome, temp->time.nome);
+        strcpy(timeProv.regiao, temp->time.regiao);
+        insereFinal(L2, timeProv);
+        temp = temp->proximo;
     }
 
-    temp->anterior->proximo = temp->proximo;
-    temp->proximo->anterior = temp->anterior;
-
-    free(temp);
-    
     return 0;
 
 }

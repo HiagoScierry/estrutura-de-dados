@@ -22,38 +22,30 @@ tipoDescritor *criarLista()
 int criarTime(tipoDescritor *L, tipoTime inf)
 {
     tipoNo *temp;
-    int ordem, posAtual = 1;
+    int pos = 0;
 
+    if (L == NULL)
+    {
+        return -1;
+    }
+
+    temp = L->primeiro;
     inf.id = proximoId(L);
 
-    if (L->quantidade == 0)
-    {
-        insereInicio(L, inf);
-        return 0;
-    }
-    else
+    while (temp != NULL)
     {
 
-        temp = L->primeiro;
-
-        do
+        if (strcmp(inf.nome, temp->time.nome) <= 0)
         {
-            ordem = strcmp(temp->time.nome, inf.nome);
-            temp = temp->proximo;
-
-        } while (ordem <= 0 && temp != NULL);
-
-        if (L->quantidade > posAtual)
-        {
-            insereFinal(L, inf);
+            break;
         }
-        else
-        {
-            inserePosicao(L, inf, posAtual);
-        }
-
-        return 0;
+        temp = temp->proximo;
+        pos++;
     }
+
+    inserePosicao(L, inf, pos);
+
+    return 0;
 }
 
 int editarTime(tipoDescritor *L, tipoTime T, int id)
@@ -82,27 +74,35 @@ int editarTime(tipoDescritor *L, tipoTime T, int id)
 
 int removerTime(tipoDescritor *L, int id)
 {
-
     tipoNo *temp;
+    int posatual = 0;
 
-    if (L->quantidade == 0)
-    {
+    temp = L->primeiro;
+
+    if (temp == NULL)
         return -1;
+
+    while (temp != NULL)
+    {
+        if (id == temp->time.id)
+        {
+            break;
+        }
+
+        temp = temp->proximo;
+        posatual++;
     }
 
-    if (L->primeiro->time.id == id)
-    {
-        removeInicio(L);
-        return 0;
-    }
-    else if  (L->ultimo->time.id == id)
-    { 
-        removeFim(L);
-        return 0;
-    } else {
-        removeMeio(L, id);
-        return 0;
-    }
+    if (posatual + 1 == L->quantidade)
+        return removeFim(L);
+
+    if (posatual == 0)
+        return removeInicio(L);
+
+    temp->anterior->proximo = temp->proximo;
+    temp->proximo->anterior = temp->anterior;
+    L->quantidade--;
+    free(temp);
 
     return 0;
 }
