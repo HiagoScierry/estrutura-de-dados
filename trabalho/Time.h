@@ -34,8 +34,8 @@ tipoDescritor *criarLista();
 
 int criarTime(tipoDescritor *L, tipoTime inf);
 
-int editarTime(tipoDescritor *L, tipoTime *T,int pos);
+int editarTime(tipoDescritor *L, tipoTime T,int id);
 
-int removerTime(tipoDescritor *L, int pos);
+int removerTime(tipoDescritor *L, int id);
 
 #endif

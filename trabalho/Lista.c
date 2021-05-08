@@ -92,7 +92,13 @@ int mostrarLista(tipoDescritor *L)
 {
     tipoNo *temp;
 
+    
     temp = L->primeiro;
+
+
+    if(temp == NULL) return -1;
+
+
     while (temp != NULL)
     {
         printf("%i - ", temp->time.id);

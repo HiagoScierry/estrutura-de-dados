@@ -15,7 +15,7 @@ tipoDescritor *criarLista()
     descritor->primeiro = NULL;
     descritor->ultimo = NULL;
     descritor->quantidade = 0;
-    
+
     return descritor;
 }
 
@@ -36,14 +36,12 @@ int criarTime(tipoDescritor *L, tipoTime inf)
 
         temp = L->primeiro;
 
-
         do
         {
             ordem = strcmp(temp->time.nome, inf.nome);
             temp = temp->proximo;
 
         } while (ordem <= 0 && temp != NULL);
-
 
         if (L->quantidade > posAtual)
         {
@@ -58,64 +56,67 @@ int criarTime(tipoDescritor *L, tipoTime inf)
     }
 }
 
-// int editarTime(tipoDescritor *L, tipoTime *T, int pos)
-// {
-//     tipoNo *anterior, *temp;
-//     int posatual = 1;
+int editarTime(tipoDescritor *L, tipoTime T, int id)
+{
+    tipoNo *temp;
 
-//     temp = (tipoNo *)malloc(sizeof(tipoNo));
+    temp = L->primeiro;
 
-//     temp = L->primeiro;
+    if (temp == NULL)
+        return -1;
 
-//     if (pos > L->quantidade || pos <= 0)
-//     {
-//         return -1;
-//     }
+    while (temp->time.id != id)
+    {
 
-//     while (temp == NULL)
-//     {
-//         if (pos == posatual)
-//         {
-//             //recebe as variaveis novas do time
-//             *temp->time.nome = T->nome;
-//             *temp->time.regiao = T->regiao;
-//         }
+        if (temp == NULL)
+            return -1;
 
-//         anterior = temp;
-//         temp = temp->proximo;
+        temp = temp->proximo;
+    }
 
-//         posatual++;
-//     }
+    T.id = id;
+    temp->time = T;
 
-//     return 0;
-// }
+    return 0;
+}
 
-// int removerTime(tipoDescritor *L, int pos)
-// {
-//     tipoNo *atual, *anterior, *temp;
-//     int posatual = 0;
+int removerTime(tipoDescritor *L, int id)
+{
 
-//     if (pos > L->quantidade || pos <= 0)
-//     {
-//         return -1;
-//     }
+    tipoNo *temp, *anterior;
 
-//     atual = L->primeiro;
-//     while (atual == NULL)
-//     {
-//         if (pos == posatual)
-//         {
-//             temp = atual->proximo;
-//             temp->anterior = anterior;
-//             anterior->proximo = temp;
-//         }
+    temp = L->primeiro;
 
-//         anterior = atual;
-//         atual = atual->proximo;
+    if (temp == NULL)
+        return -1;
 
-//         posatual++;
-//     }
+    while (temp != NULL)
+    {
+        if (id = temp->time.id)
+        {
 
-//     L->quantidade--;
-//     return 0;
-// }
+            break;
+        }
+
+        anterior = temp;
+        temp = temp->proximo;
+    }
+
+    if (temp == NULL)
+        return -1;
+
+    temp = temp->proximo;
+    anterior->proximo = temp;
+    temp->anterior = anterior;
+    
+    L->quantidade--;
+
+    if(temp->anterior == NULL){
+        L->primeiro = temp;
+    } else if(temp->proximo == NULL){
+        L->ultimo = temp;
+    }
+
+
+    return 0;
+}

@@ -8,17 +8,16 @@
 int main(int argc, char const *argv[])
 {
     int menuescolha;
-    int ret;
 
     tipoDescritor *descritorTimes;
-    tipoTime timeProv = {1, "hiago", "linhares"};
-    tipoTime timeProv2 = {2, "dav", "sm"};
-    tipoTime timeProv3 = {3, "thais", "sm"};
+    tipoTime timeProv = {0, "", "l"};
+    int idProv;
 
     descritorTimes = criarLista();
 
     while (menuescolha != 7)
     {
+
         printf("----------------MENU------------------\n");
         printf("1 - Cadastrar time\n");
         printf("2 - Editar time\n");
@@ -33,20 +32,54 @@ int main(int argc, char const *argv[])
 
         scanf("%i", &menuescolha);
 
-        if (menuescolha == 1)
+        switch (menuescolha)
         {
+        case 1:
+            printf("Digite o nome do time :");
+            scanf("%s", timeProv.nome);
+
+            printf("Digite o nome da regiao :");
+            scanf("%s", timeProv.regiao);
 
             criarTime(descritorTimes, timeProv);
-            criarTime(descritorTimes, timeProv2);
-            criarTime(descritorTimes, timeProv3);
+
+            system("clear");
+
+            break;
+
+        case 2:
+            system("clear");
+            mostrarLista(descritorTimes);
+            printf("selecione o ID para editar");
+            scanf("%i", &idProv);
+
+            printf("Digite o novo nome do time :");
+            scanf("%s", timeProv.nome);
+
+            printf("Digite o novo nome da regiao :");
+            scanf("%s", timeProv.regiao);
+
+            editarTime(descritorTimes, timeProv, idProv);
+            break;
+
+        case 3:
+
+            system("clear");
+            printf("selecione o ID para remover");
+            scanf("%i", &idProv);
+            removerTime(descritorTimes, idProv);
+            break;
+
+        case 4:
+
+            system("clear");
 
             mostrarLista(descritorTimes);
+            break;
+        default:
+            break;
         }
-        else
-        {
-            printf("Botao errado");
-        }
-
-        return 0;
     }
+
+    return 0;
 }
