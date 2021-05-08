@@ -92,7 +92,7 @@ int removerTime(tipoDescritor *L, int id)
 
     while (temp != NULL)
     {
-        if (id = temp->time.id)
+        if (id ==temp->time.id)
         {
 
             break;
@@ -108,7 +108,7 @@ int removerTime(tipoDescritor *L, int id)
     temp = temp->proximo;
     anterior->proximo = temp;
     temp->anterior = anterior;
-    
+
     L->quantidade--;
 
     if(temp->anterior == NULL){
