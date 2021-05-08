@@ -83,40 +83,26 @@ int editarTime(tipoDescritor *L, tipoTime T, int id)
 int removerTime(tipoDescritor *L, int id)
 {
 
-    tipoNo *temp, *anterior;
+    tipoNo *temp;
 
-    temp = L->primeiro;
-
-    if (temp == NULL)
-        return -1;
-
-    while (temp != NULL)
+    if (L->quantidade == 0)
     {
-        if (id ==temp->time.id)
-        {
-
-            break;
-        }
-
-        anterior = temp;
-        temp = temp->proximo;
-    }
-
-    if (temp == NULL)
         return -1;
-
-    temp = temp->proximo;
-    anterior->proximo = temp;
-    temp->anterior = anterior;
-
-    L->quantidade--;
-
-    if(temp->anterior == NULL){
-        L->primeiro = temp;
-    } else if(temp->proximo == NULL){
-        L->ultimo = temp;
     }
 
+    if (L->primeiro->time.id == id)
+    {
+        removeInicio(L);
+        return 0;
+    }
+    else if  (L->ultimo->time.id == id)
+    { 
+        removeFim(L);
+        return 0;
+    } else {
+        removeMeio(L, id);
+        return 0;
+    }
 
     return 0;
 }

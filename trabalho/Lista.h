@@ -16,5 +16,11 @@ int mostrarLista(tipoDescritor *L);
 
 int proximoId(tipoDescritor *L);
 
+int removeInicio(tipoDescritor *L);
+
+int removeFim(tipoDescritor *L);
+
+int removeMeio(tipoDescritor *L , int Id);
+
 
 #endif

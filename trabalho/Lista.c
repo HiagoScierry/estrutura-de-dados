@@ -92,12 +92,10 @@ int mostrarLista(tipoDescritor *L)
 {
     tipoNo *temp;
 
-    
     temp = L->primeiro;
 
-
-    if(temp == NULL) return -1;
-
+    if (temp == NULL)
+        return -1;
 
     while (temp != NULL)
     {
@@ -121,7 +119,6 @@ int proximoId(tipoDescritor *L)
     {
         return 0;
     }
-    
 
     temp = L->primeiro;
     maiorID = temp->time.id;
@@ -138,4 +135,59 @@ int proximoId(tipoDescritor *L)
     }
 
     return maiorID + 1;
+}
+
+int removeInicio(tipoDescritor *L)
+{
+    tipoNo *temp;
+
+    temp = L->primeiro;
+
+    if (temp == NULL)
+        return -1;
+
+    L->primeiro = temp->proximo;
+
+    free(temp);
+
+    return 0;
+}
+
+int removeFim(tipoDescritor *L)
+{
+    tipoNo *temp;
+
+    temp = L->ultimo;
+
+    if (temp == NULL)
+        return -1;
+
+    L->ultimo = temp->anterior;
+
+    free(temp);
+
+    return 0;
+}
+
+
+int removeMeio(tipoDescritor *L, int Id){
+
+    tipoNo *temp;
+
+    temp = L->primeiro;
+
+    if (temp == NULL) return -1;
+
+    while (Id != temp->time.id)
+    {
+         temp = temp->proximo;
+    }
+
+    temp->anterior->proximo = temp->proximo;
+    temp->proximo->anterior = temp->anterior;
+
+    free(temp);
+    
+    return 0;
+
 }
