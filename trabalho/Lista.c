@@ -35,11 +35,11 @@ int insereInicio(tipoDescritor *L, tipoTime inf)
 int insereFinal(tipoDescritor *L, tipoTime inf)
 {
     tipoNo *novoNo;
-    
-    if (L == NULL ) return -1;
 
-    
-    if (  L->primeiro == NULL)
+    if (L == NULL)
+        return -1;
+
+    if (L->primeiro == NULL)
         return insereInicio(L, inf);
 
     novoNo = (tipoNo *)malloc(sizeof(tipoNo));
@@ -156,9 +156,23 @@ int removeInicio(tipoDescritor *L)
     if (temp == NULL)
         return -1;
 
-    L->primeiro = temp->proximo;
-    L->primeiro->anterior = NULL;
+    if (temp->proximo == NULL)
+    {
+        L->primeiro = NULL;
+    }
+    else
+    {
+        L->primeiro = temp->proximo;
+        L->primeiro->anterior = NULL;
+    }
+
     L->quantidade--;
+
+    if (L->quantidade == 0)
+    {
+        L->primeiro = NULL;
+        L->ultimo = NULL;
+    }
 
     free(temp);
 
@@ -174,9 +188,24 @@ int removeFim(tipoDescritor *L)
     if (temp == NULL)
         return -1;
 
-    L->ultimo = temp->anterior;
-    L->ultimo->proximo = NULL;
+    if (temp->anterior == NULL)
+    {
+        L->ultimo = NULL;
+    }
+    else
+    {
+        L->ultimo = temp->anterior;
+        L->ultimo->proximo = NULL;
+    }
+
     L->quantidade--;
+
+    if (L->quantidade == 0)
+    {
+        L->primeiro = NULL;
+        L->ultimo = NULL;
+    }
+
     free(temp);
 
     return 0;
@@ -196,7 +225,6 @@ int copiaLista(tipoDescritor *L1, tipoDescritor *L2)
     if (temp == NULL || L1->quantidade == 0)
         return -1;
 
-
     while (temp != NULL)
     {
         timeProv.id = temp->time.id;
@@ -207,5 +235,4 @@ int copiaLista(tipoDescritor *L1, tipoDescritor *L2)
     }
 
     return 0;
-
 }

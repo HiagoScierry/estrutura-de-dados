@@ -24,21 +24,24 @@ GrupoDescritor *criaGrupo()
 
 int insereGrupoFim(GrupoDescritor *L, int id)
 {
+
     Grupo *novoNo;
 
     novoNo = (Grupo *)malloc(sizeof(Grupo));
 
-    if (novoNo == NULL)
+    if (novoNo == NULL || L == NULL)
         return -1;
 
     novoNo->id = id;
 
-    if (L->tamanho == 0)
+    if (L->primeiro == NULL)
     {
         L->primeiro = novoNo;
         L->ultimo = novoNo;
         novoNo->proximo = NULL;
         novoNo->anterior = NULL;
+        L->tamanho++;
+
         return 0;
     }
 
@@ -46,6 +49,7 @@ int insereGrupoFim(GrupoDescritor *L, int id)
     novoNo->anterior = L->ultimo;
     L->ultimo->proximo = novoNo;
     L->ultimo = novoNo;
+    L->tamanho++;
 
     return 0;
 }
@@ -70,42 +74,90 @@ int mostraGrupos(GrupoDescritor *L)
     return 0;
 }
 
-int sorteiaGrupos(tipoDescritor *L, GrupoDescritor *G, int N)
+int deletaGrupo(GrupoDescritor *G)
 {
-    int aleatorio;
-    tipoNo *temp;
-    int pos;
 
-    printf("quantidade : %i\n", L->quantidade);
+    Grupo *temp;
 
-    if (L == NULL || G == NULL || N <= 0)
+    if (G == NULL)
+    {
         return -1;
+    }
+
+    if (G->tamanho == 0)
+    {
+        return -1;
+    }
+
+    temp = G->primeiro;
+
+    while (temp->proximo != NULL)
+    {
+        temp = temp->proximo;
+        free(temp->anterior);
+    }
+
+    free(temp);
+
+    G->primeiro = NULL;
+    G->ultimo = NULL;
+    G->tamanho = 0;
+    return 0;
+}
+
+int sorteiaGrupos(tipoDescritor *L, GrupoDescritor *G1, GrupoDescritor *G2)
+{
+    int aleatorio, pos, tam;
+    tipoNo *temp;
+
+    if (L == NULL)
+        return -1;
+
+    if (L->quantidade == 0)
+        return -1;
+
+    if (G1 == NULL || G2 == NULL)
+        return -1;
+
+    if (G1->tamanho != 0)
+    {
+        printf("grupo 1 com coisa");
+        deletaGrupo(G1);
+    }
+
+    if (G2->tamanho != 0)
+    {
+        deletaGrupo(G2);
+    }
 
     srand(time(NULL));
 
-    for (int i = 0; i < N; i++)
+    while (L->primeiro != NULL)
     {
-        aleatorio = rand() % (L->quantidade);
-        printf("aleatorio: %i\n", aleatorio);
-
+        aleatorio = rand() % L->quantidade + 1;
+        pos = 1;
         temp = L->primeiro;
-        pos = 0;
-
         printf("%p\n", temp);
-        while (temp != NULL && pos != aleatorio)
+
+        while (pos != aleatorio && temp != NULL)
         {
             temp = temp->proximo;
             pos++;
         }
 
-        printf("%i\n", temp->time.id);
-
         if (temp == NULL)
             return -1;
 
-        // insereGrupoFim(G, temp->time.id);
+        if (L->quantidade % 2 == 0)
+        {
+            insereGrupoFim(G1, temp->time.id);
+        }
+        else
+        {
+            insereGrupoFim(G2, temp->time.id);
+        }
+
         removerTime(L, temp->time.id);
-        printf("alguma coisa");
     }
 
     return 0;

@@ -25,6 +25,8 @@ int insereGrupoFim(GrupoDescritor *L, int id);
 
 int mostraGrupos(GrupoDescritor *L);
 
-int sorteiaGrupos(tipoDescritor *L, GrupoDescritor *G, int N);
+int sorteiaGrupos(tipoDescritor *L, GrupoDescritor *G1, GrupoDescritor *G2);
+
+int deletaGrupo(GrupoDescritor *G);
 
 #endif

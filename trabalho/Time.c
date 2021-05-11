@@ -102,6 +102,13 @@ int removerTime(tipoDescritor *L, int id)
     temp->anterior->proximo = temp->proximo;
     temp->proximo->anterior = temp->anterior;
     L->quantidade--;
+
+    if (L->quantidade == 0)
+    {
+        L->primeiro = NULL;
+        L->ultimo = NULL;
+    }
+
     free(temp);
 
     return 0;

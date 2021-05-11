@@ -11,18 +11,19 @@ int main(int argc, char const *argv[])
     int menuescolha;
 
     tipoDescritor *descritorTimes, *aux;
-    tipoTime timeProv = {0, "", "l"};
+    tipoTime timeProv = {0, "hiago", "l"};
     GrupoDescritor *grupo1, *grupo2;
     int idProv;
 
     descritorTimes = criarLista();
     aux = criarLista();
     grupo1 = criaGrupo();
+    grupo2 = criaGrupo();
 
     while (menuescolha != 7)
     {
 
-        printf("----------------MENU------------------\n");
+        printf("\n----------------MENU------------------\n");
         printf("1 - Cadastrar time\n");
         printf("2 - Editar time\n");
         printf("3 - Remover time\n");
@@ -80,19 +81,16 @@ int main(int argc, char const *argv[])
 
         case 5:
             copiaLista(descritorTimes, aux);
-            sorteiaGrupos(aux, grupo1, (int)(aux->quantidade/2));
-            mostrarLista(aux);
-            sorteiaGrupos(aux, grupo2, (int)(aux->quantidade));
-
+            sorteiaGrupos(aux, grupo1, grupo2);
             break;
 
         case 6:
             printf("\nGRUPO 1 : ");
-            mostraGrupos(grupo1); 
-            
+            mostraGrupos(grupo1);
+
             printf("\nGRUPO 2 : ");
-            mostraGrupos(grupo2); 
-            
+            mostraGrupos(grupo2);
+
             break;
 
         default:
